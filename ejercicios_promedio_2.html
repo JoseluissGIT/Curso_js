@@ -45,26 +45,28 @@
 
         for (let index = 0; index < size; index++) {//----for init-->
             set_color_nota = "black";
-            let get_alumno = datos.estudiantes[index].nombre;
-            let get_nota = datos.estudiantes[index].promedio;
-            valor_notas = valor_notas+get_nota;
+            let get_alumno = datos.estudiantes[index].nombre;// obtenemos el nombre del estudiante
+            let get_nota = datos.estudiantes[index].promedio;//obtenemos el primedio de nota.
+            valor_notas = valor_notas+get_nota;// sumamos todas las notas encontradas de cada alumno.
 
             if(get_nota>=max_promedio){//--if->
+                //guardamos el mejor promedio encontrado con criterio de 10.
                 max_promedio = get_nota;
-                set_color_nota = "red";
+                set_color_nota = "red";//lo identificamos con un color diferente, a los demas estudiante.
                 
 
             }//--end if->
-
+            // creamos los diferentes parrafos con el nombre y el promedio de cada estudiante.
             const nombre_estudiante = document.createElement("p");
-            nombre_estudiante.textContent = "Nombre :"+get_alumno+" "+" Promedio :"+get_nota;
+            nombre_estudiante.textContent = "Nombre :"+get_alumno+" "+" Promedio :"+get_nota;//contenenido del parrafo (estudiante y su promedio)
             nombre_estudiante.style.color = set_color_nota; 
             const contenedor = document.getElementById("contenedor");
-            contenedor.appendChild(nombre_estudiante);
+            contenedor.appendChild(nombre_estudiante);//agregamos los parrafos al contenedor principal.
 
             
             
         }//---end for-->
+        // visualizamos el promedio general de la clase.
         prome_clase.textContent = "Promedio de la Clase :"+valor_notas/size;
         
        
