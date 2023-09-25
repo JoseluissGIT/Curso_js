@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+
+
+</style>
+
+
+
+
+<body>
+
+    <div id="contenedor">
+        <h1 id="promedio_clase"></h1>
+        <h2>Lista de estudiantes y primedios.</h2>
+    
+
+    </div>
+
+    <script>
+
+
+        //crea una página web que muestre una lista de estudiantes y sus promedios. La página debe realizar las siguientes tareas:
+        //1. Mostrar la lista de 10 estudiantes.
+        //2. Resaltar en color verde a los estudiantes que tengan un promedio de 10.
+        //3. Calcular el promedio general de la clase y mostrarlo en algún lugar de la pagina
+    
+        const clase_json ='{"estudiantes":[{"nombre":"juan","promedio":7},{"nombre":"pedro","promedio":9},{"nombre":"maria","promedio":8},{"nombre":"carlos","promedio":10},{"nombre":"ana","promedio":7},{"nombre":"pablo","promedio":10},{"nombre":"matias","promedio":6},{"nombre":"ezequiel","promedio":8},{"nombre":"florencia","promedio":9},{"nombre":"roxana","promedio":7}]}';
+        const datos= JSON.parse(clase_json);
+        let size = datos.estudiantes.length;
+        let max_promedio = 10;
+        let set_color_nota = "black";
+        let valor_notas =0;
+
+        let prome_clase = document.getElementById("promedio_clase");
+        
+        
+    
+
+        for (let index = 0; index < size; index++) {//----for init-->
+            set_color_nota = "black";
+            let get_alumno = datos.estudiantes[index].nombre;
+            let get_nota = datos.estudiantes[index].promedio;
+            valor_notas = valor_notas+get_nota;
+
+            if(get_nota>=max_promedio){//--if->
+                max_promedio = get_nota;
+                set_color_nota = "red";
+                
+
+            }//--end if->
+
+            const nombre_estudiante = document.createElement("p");
+            nombre_estudiante.textContent = "Nombre :"+get_alumno+" "+" Promedio :"+get_nota;
+            nombre_estudiante.style.color = set_color_nota; 
+            const contenedor = document.getElementById("contenedor");
+            contenedor.appendChild(nombre_estudiante);
+
+            
+            
+        }//---end for-->
+        prome_clase.textContent = "Promedio de la Clase :"+valor_notas/size;
+        
+       
+    
+       
+    
+    </script>
+
+    
+</body>
+
+
+</html>
