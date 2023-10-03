@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal</title>
+</head>
+
+<style>
+  
+    #contenedorModal{
+        background-color: aquamarine;
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+        align-items: center;
+        position: absolute;
+        top: 0px;
+        left: 0px; 
+        opacity: 0.7   ;
+       
+        
+        
+        
+   
+        
+
+        
+       
+    }
+    input{
+        text-align: center;
+        position: absolute;
+        left: 20%;
+
+
+    }
+   
+    
+    #contenedorAcceso{
+        width: 300px;
+        height: 300px;
+        background-color: red;
+        position: relative;
+    }
+    #contenedorAcceso p{
+        background-color: blue;
+        color:white;
+
+        padding-left: 20%;
+    }
+    
+    .btnConfirmar{
+        position: absolute;
+        left: 36%;
+        top:40%;
+       
+
+
+
+    }
+
+    .mystyle {
+  display: none;
+}
+
+
+</style>
+
+<body>
+    <h1>Modal</h1>
+    <p id="textIdentifiacion">Numero de Alumno : ?</p>
+   
+  <a href="https://www.argentina.gob.ar/turismoydeportes/capacitate/turismo/campus-virtual">Link de ingreso al Campus</a>
+  
+
+   <div id="contenedorModal">
+    
+    <div id="contenedorAcceso">
+        <p> INGRESE SU NUMERO DE IDENTIFIACION :<p>
+         <input type="password" id="claveUsuario">
+        <button class="btnConfirmar">Confirmar</button>
+
+   </div>
+
+   </div>
+
+   
+
+  
+
+</body>
+
+
+<script>
+    //1. Estructura del Modal:
+       // - Crea un modal con un input de tipo numérico y un botón de confirmación.
+    
+    //2. //Funcionalidad del Botón:
+       // - Utiliza JavaScript para detectar el clic en el botón de confirmación dentro del modal.
+       // - Cuando se hace clic en el botón de confirmación, lee el valor del input numérico ingresado por el usuario.
+    
+    //3. Mostrar y Cerrar el Modal:
+        //- Muestra el número ingresado por el usuario en un elemento HTML.
+        //- Cierra el modal después de mostrar el número.
+        let botonConfirmar = document.querySelector(".btnConfirmar");
+        let clave = document.querySelector("#claveUsuario");
+
+        let textResultado = document.querySelector("#textIdentifiacion");
+        let modal = document.querySelector("#contenedorModal");
+        
+            
+        botonConfirmar.addEventListener("click",()=>{//---click-->
+
+            let valor  = clave.value;
+            textResultado.textContent = "Alumno numero : "+valor;
+            modal.style.display = "none";
+
+            
+
+
+
+
+            
+    
+    
+        })//---end click-->
+    
+    
+    
+    </script>
+</html>
