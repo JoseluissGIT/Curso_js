@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style_1.css">
+  <title>Document</title>
+</head>
+
+<style>
+
+</style>
+<script src="./archivosJS/jquery-1.6.3.min.js"></script>
+<script src="./archivosJS/calls.js"></script>
+
+<script>
+
+
+  //https://portal.edu-apps.com.ar/api/products/?format=json
+
+  //escripción del Trabajo:
+
+  //1. Cargar Datos:
+  //- Leer un archivo JSON desde la siguiente URL: `https://portal.edu-apps.com.ar/api/products/?format=json`.
+
+  //2. Mostrar Productos:
+  // - Mostrar los diferentes productos del catálogo en elementos HTML. Cada producto debe mostrar al menos su nombre y precio.
+
+  //3. Productos con Precio Más Alto:
+  // - Diferenciar visualmente los productos que tienen el precio más alto del resto. 
+  // Esto puede lograrse cambiando los colores de los bordes, 
+  // agregando una leyenda u otra forma creativa de destacarlos.
+
+  //4. Modal de Producto:
+  // - Al hacer clic en uno de los productos, se deberá abrir un modal que contenga 
+  //la imagen correspondiente al producto y mostrar por debajo la descripción del mismo.
+
+  //5. Cerrar Modal:
+  // - Al hacer clic fuera del modal o en algún elemento "X", el modal deberá cerrarse
+  //para permitir la continuación de la navegación en la página web.
+
+  //Punto Extra (Opcional y No Obligatorio):
+
+  //- Botón de Compra:
+  // - Agregar un botón de compra en el modal. Si el usuario hace clic en este botón, 
+  //el modal deberá cerrarse y mostrar un formulario de compra al usuario. 
+  //Este formulario debe contener la información del producto seleccionado, como nombre, precio, etc.
+  //Y además deberá permitirle al usuario agregar información de contacto extra.
+  //El formulario no tiene que tener ninguna funcionali
+
+
+
+
+  $(document).ready(function () {//----init ready---->
+    $(".modal").hide();
+    $(".seccion-modal").hide();
+    $("body").hide();
+
+    let botonMarca_auto;
+    let tarjetaAuto;
+    let arrayAutos = [];
+    let precioMayor = 0;
+    let array_precios = [];
+
+    let registroMarcas = new Map();
+    let registroPrecios = new Map();
+    let registro_perce = new Map();
+
+
+
+    // esperamos adquirir los datos para visualizar la paguina.
+    Promise.all([callMenu, callAutomoviles]).then((datos) => {
+      let menuNavegacion = datos[0];
+      let datosAutos = datos[1];
+
+      $("#navMenu").load(menuNavegacion);
+      autos_disponibles(datosAutos);
+      $("body").show();
+
+
+    });
+
+
+
+
+
+
+    function autos_disponibles(datos) {//---init autos-disponibles-->
+
+      let i = 0;
+      datos.forEach(function (auto, a) {//---init each--->
+        let marca = auto.description;
+        let modelo = auto.description; //obtenemos el modelo y el detalle del auto.
+        let precio = auto.price;//valor del auto en $.pesos.
+        let source_src = auto.image_field;
+        if (marca != null) {//------------ si no es nulll.
+
+          marca = marca.split(" ");
+          marca = marca[0];//obtenemos la marca del auto.
+
+          let existe = registroMarcas.get(marca);
+
+          if (!existe) {//--- si no existe la marca todavia  creamos el boton para la marca de auto.
+
+            botonMarca_auto = $('<div  class="boton-contenedor" id="' + marca + '"><button class="marcas">' + marca + '</button><hr id="' + marca + '" class="hr_to_boton"></div>');
+            registroMarcas.set(marca, true);//guardamos la marca del auto.
+
+          } else {// si ya existe la marca del auto. NO creamos el boton nuevamente.
+
+
+          }//---end if.
+
+
+          //creamos la tarjeta del auto.
+          tarjetaAuto = $('<div class="card" id="' + marca + '"><div class="precioHard" id="' + modelo + '"></div><img  id="' + modelo + '" src="' + source_src + '"" class="imgCard"><p >' + modelo + '</p><span  class="text-precio"id="' + modelo + '" >$' + precio + '</span></div>');
+          registroPrecios.set(modelo, precio);// guaramodos el auto y precio.
+
+          if (precio >= precioMayor) {//--->// registramos el precio mas caro encontrado de los autos.
+
+            precioMayor = precio;
+
+
+          }//--- end  precio mas caro -->
+
+
+
+          registro_perce.set(precio, tarjetaAuto);// guardamos la tarjeta del auto con su precio.
+          array_precios[i] = precio; //guardamos los precios.
+
+          $("#contenedor_botones").append(botonMarca_auto);// cargamos los botones.
+
+          i++;
+
+
+
+
+        }//--- end if !=null
+
+
+      })//---end each--->
+
+      CostosUP_DOWN("costosBajo");
+
+
+      $(".botonCosto").click(function () {//----click boton orden costo Up down->
+        // ordenemos el costo de los autos segun la seleccion del usuario de Mayor a menor y/o Menor a mayor.
+
+        let id = $(this).attr("id");
+        if (id == "costo-up") {
+          // remarcamos la seleccion del usuario 
+          $("#costo-up").css("border-color", "#05ff0e");
+          $("#costo-down").css("border-color", "#ddd");
+          CostosUP_DOWN("costosAltos");
+
+        } else {
+          $("#costo-down").css("border-color", "#05ff0e");
+          $("#costo-up").css("border-color", "#ddd");
+          CostosUP_DOWN("costosBajo");
+        }
+
+        if (id == "costo-refresh") {//---boton refhes ->
+          // volvemos el ordenamiento por defecto que es de menor a mayor el precios de los Autos.
+
+          $("#costo-down").css("border-color", "#05ff0e");
+          $("#costo-up").css("border-color", "#ddd");
+          //--------restablecemos los botones de la marcas de los autos.
+          $("hr").show();
+          // mostramos todas las tarjetas de los autos nuevamente.
+          $('div.card').show();
+
+        }//---end refresh-->
+
+
+      })//---end click boton costo up donw-->
+
+
+
+      function CostosUP_DOWN(seleccion) {//--- costo up down-->
+        if (seleccion == "costosAltos") {
+          //-- visualizamos los autos ordenados de mayor a menor.
+          array_precios.sort(function (mayor, menor) { return menor - mayor });
+
+
+        } else {
+          // visualiamos de menor a mayor.
+
+          array_precios.sort(function (menor, mayor) { return menor - mayor });
+
+        }
+
+
+        for (let index = 0; index < array_precios.length; index++) {//---init for-->
+          //buscamos los precios que ya fueron ordenados segun la seleccion del usuario.
+          // luego buscamos las marcas del auto segun su precio.
+
+          const valor = array_precios[index];
+          let Automovil = registro_perce.get(valor);
+
+
+          // cargamos las tarjetas de los autos.
+          $("#contenedor-autos").append(Automovil);
+
+        }///---end for-->
+
+
+      }//-- end costo up down-->
+
+
+      ///------------------------------Bucamos el precio mas Caro de los automoviles -------------------------------------------------->
+
+      $(".precioHard").each(function () {//--------precios each------>
+
+        // buscamos el auto  mas caro  y lo remarcamos.
+
+        // los id son iguales que las marca de los auto y sus precios guardados en registroPrecios.
+
+        let id = $(this).attr("id");
+        let valor = registroPrecios.get(id);
+
+        if (valor >= precioMayor) {//---1->
+          $(this).css("visibility", "visible");
+
+        }//---1
+
+      })//------------>end precios each---->
+
+
+
+
+      //---------------------------------------Botones seleccion Segun Marcas de Autos------------------------------------------------------>
+
+      $('div.boton-contenedor').click(function () {//---click en boton seleccion marca de auto--->
+        let clickbotonMarca = $(this).attr("id");
+        $("hr").hide();
+        $("hr#" + clickbotonMarca).show();
+
+        $('div.card').each(function () {//----init each mostramos todas las tajetas de autos. segun la marca que el usuario realizo click-->
+
+          let autoAlls = $(this).attr("id");
+          if (autoAlls == clickbotonMarca) {
+            $(this).show();
+
+          } else {
+            $(this).hide();
+
+          }
+
+
+
+
+        })//---end each tarjetas de autos segun click de usuario-->
+
+
+
+
+      })//--- END click en boton seleccion marca de auto--->
+
+
+
+      $(".imgCard").click(function () {//----click en tarjeta auto --->
+        //abrimos el modal para que el usuario pueda visualizar el auto  y comprarlo.
+        let src_modal = $(this).attr("src");//img del auto.
+        let auto = $(this).attr("id");
+        let valor = "";
+        let id = "";
+        let precioAuto = "";
+
+
+
+        // obtenemos el precio del auto seleccionado.
+        $('div.card span').each(function () {//---precio-->
+
+          valor = $(this).text();
+          id = $(this).attr("id");
+
+
+
+          if (id == auto) {
+
+            precioAuto = valor;// obtnemos el valor del precio.
+
+
+
+          }
+
+
+        })//---end precio-->
+        // cargamos los datos para el MODAL.
+        $("#modal-modeloAuto").text(auto); //modelo del auto seleccionado.
+        $("#modal-precio").text(precioAuto);// valor del precio/costo del auto.
+        $("#contenedor-2-modal").css('background-image', 'url(' + src_modal + ')');// img del auto seleccionado.
+
+        $(".seccion-modal").show();
+        $(".modal").show(230);
+
+        $("nav").hide();
+        $("#secccion-autos").hide();
+        $("#encabezado").hide();
+        $("#seccionFlechas").hide();
+
+
+      })//-----end click tarjeta auto-->
+
+
+
+
+    }//------end autos disponibles-->
+
+    $("#cerrarModal").click(function () {//-------clck cerrar modal-->
+      // click en la X del modal.
+
+      cerrarModal();
+
+
+
+    })//---end click cerrar modal-->
+
+
+    $('.seccion-modal').click(function () {//--->click por fuera del modal.
+
+      //click realizado afuera del modal.
+
+      cerrarModal();
+
+    })//--->
+
+
+    function cerrarModal() {//----cerrar modal--->
+
+
+      $("#encabezado").show();
+      $(".seccion-modal").hide();
+      $(".modal").hide();
+
+      $("#secccion-autos").show();
+      $("#seccionFlechas").show();
+      $("nav").show();
+      location.href = "integrador.html#contenedor_botones";
+
+
+
+    }//---end cerrear modal--->
+
+
+
+
+  })//------end ready-->
+
+
+
+
+</script>
+
+<body>
+
+  <!---Menu seleccion-->
+  <section id="navMenu">
+
+  </section>
+
+
+  <!-- Construccion de Modal-->
+  <section class="seccion-modal">
+  </section>
+  <div class='modal'>
+
+    <div id="contenedor-1-modal">
+
+      <section id="datosAUTO">
+        <h2 id="modal-modeloAuto">Ford fiesta</h2>
+        <p id="modal-precio">Precio : $59.000</p>
+        <button class="bton">Adquirir</button>
+
+      </section>
+
+    </div>
+
+    <div id="contenedor-2-modal">
+      <button id="cerrarModal" class="boton_x"></button>
+    </div>
+
+  </div>
+  <!-- end Construccion de Modal-->
+
+  <!--botones de seleccion segun el costo-->
+  <section id="seccionFlechas">
+    <img src="flecha.png" alt="" class="botonCosto" id="costo-up">
+    <img src="flecha_2.png" alt="" class="botonCosto" id="costo-down">
+    <img src="flecha_3.png" alt="" class="botonCosto" id="costo-refresh">
+  </section>
+
+
+
+  <!--seccion de autos y botones--->
+  <section id="secccion-autos">
+
+    <h1>Encontrá tu versión</h1>
+    <em>nuestras mejores marcas y modelos.</em>
+
+
+    <!--seleccion de botones segun las marcas disponibles--->
+    <div id="contenedor_botones" class="contenedor-botones">
+    </div>
+
+
+    <!--visualizacion de tarjetas autos--->
+    <div id="contenedor-autos">
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

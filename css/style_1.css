@@ -1,0 +1,447 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  body {
+    font-family: sans-serif;
+    background: #f1f1f1;
+  }
+
+  nav {
+    z-index: 2;
+    position: fixed;
+    width: 100%;
+
+    background: #222;
+    padding: 5px 20px;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .logo a:hover {
+    text-decoration: none;
+  }
+
+  .menu li {
+    font-size: 16px;
+    padding: 15px 5px;
+    white-space: nowrap;
+  }
+
+  .logo a,
+  .toggle a {
+    font-size: 20px;
+  }
+
+  .button.secondary {
+    border-bottom: 1px #444 solid;
+  }
+
+  /* Mobile menu */
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .toggle {
+    order: 1;
+  }
+
+  .item.button {
+    order: 2;
+  }
+
+  .item {
+    width: 100%;
+    text-align: center;
+    order: 3;
+    display: none;
+  }
+
+  .item.active {
+    display: block;
+  }
+
+  /* Tablet menu */
+  @media all and (min-width: 600px) {
+    .menu {
+      justify-content: center;
+    }
+
+    .logo {
+      flex: 1;
+    }
+
+    .toggle {
+      flex: 1;
+      text-align: right;
+    }
+
+    .item.button {
+      width: auto;
+      order: 1;
+      display: block;
+    }
+
+    .toggle {
+      order: 2;
+    }
+
+    .button.secondary {
+      border: 0;
+    }
+
+    .button a {
+      padding: 7.5px 15px;
+      background: teal;
+      border: 1px #006d6d solid;
+    }
+
+    .button.secondary a {
+      background: transparent;
+    }
+
+    .button a:hover {
+      text-decoration: none;
+    }
+
+    .button:not(.secondary) a:hover {
+      background: #006d6d;
+      border-color: #005959;
+    }
+
+    .button.secondary a:hover {
+      color: #ddd;
+    }
+  }
+
+  @media all and (min-width: 900px) {
+    .item {
+      display: block;
+      width: auto;
+    }
+
+    .toggle {
+      display: none;
+    }
+
+    .logo {
+      order: 0;
+    }
+
+    .item {
+      order: 1;
+    }
+
+    .button {
+      order: 2;
+    }
+
+    .menu li {
+      padding: 15px 10px;
+    }
+
+    .menu li.button {
+      padding-right: 0;
+    }
+  }
+
+  #contenedor-autos {
+    z-index: 1;
+
+
+    width: 100wh;
+    display: flex;
+    flex-wrap: wrap;
+
+
+
+
+
+  }
+
+
+
+  #seccion-autos,
+  h1,
+  em {
+
+    padding-left: 2%;
+
+
+
+  }
+
+  .contenedor-botones {
+
+    display: flex;
+    justify-content: left;
+
+
+
+
+
+
+
+  }
+
+  .contenedor-botones img {
+
+
+    padding: 5px;
+    width: 100px;
+    margin-left: 5px;
+
+
+
+
+  }
+
+  .botonCosto {
+
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 50px;
+  }
+
+  #costo-refresh:hover {
+    border-color: hsl(122, 100%, 51%);
+
+
+  }
+
+  #costo-down {
+    border-color: hsl(122, 100%, 51%);
+  }
+
+
+
+
+
+  .marcas {
+    cursor: pointer;
+    background: #f1f1f1;
+
+
+
+    color: black;
+    border: 0px;
+
+
+  }
+
+  .boton-contenedor {
+
+    margin-left: 50px;
+    text-align: center;
+    display: inline-block;
+
+
+
+  }
+
+
+
+
+
+  .card {
+    position: relative;
+
+    flex-basis: 24%;
+
+    border-style: solid;
+    border-color: black whitesmoke black whitesmoke;
+
+
+    margin: 20px auto;
+
+    background-color: whitesmoke;
+
+
+
+  }
+
+  .card:hover {
+    border-color: black;
+
+
+  }
+
+
+  .precioHard {
+    visibility: hidden;
+
+    position: absolute;
+
+    background-image: url("https://img.lovepik.com/free-png/20220108/lovepik-red-up-arrow-png-image_401278698_wh860.png");
+    background-position: center;
+    background-size: cover;
+    width: 20%;
+    height: 25%;
+    left: 1%;
+
+  }
+
+
+  .card img {
+
+    width: 100%;
+
+  }
+
+  .card p {
+
+    text-align: center;
+  }
+
+  .hr_to_boton {
+    text-align: center;
+    width: 100px;
+    height: 5px;
+
+    border-width: 0;
+    color: gray;
+    background-color: red;
+
+  }
+
+  .modal {
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+
+
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 5px;
+    background-color: whitesmoke;
+    border: 1px groove #006600;
+    color: #333;
+    z-index: 1002;
+    overflow: auto;
+
+
+  }
+
+
+
+  #contenedor-1-modal {
+    position: relative;
+
+
+    background-image: url(https://www.cronista.com/files/image/121/121031/5ff76175dc8e5.jpg);
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+
+    flex-basis: 30%;
+    border: 2px solid black;
+  }
+
+  #contenedor-2-modal {
+    display: flex;
+    justify-content: flex-end;
+
+
+
+    flex-basis: 70%;
+    border: 1px solid blue;
+    background-image: url("https://media.minutouno.com/p/ef83b4eaf090ce34aee51bc79c56b4ad/adjuntos/150/imagenes/025/213/0025213899/610x0/smart/autos-vendidos.png");
+    background-size: cover;
+    background-position: center;
+
+
+  }
+
+  #datosAUTO {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    bottom: 50%;
+
+
+
+  }
+
+  #modal-precio {
+
+    text-align: center;
+    font-size: 1.5em;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+  }
+
+  #modal-modeloAuto {
+    background-color: whitesmoke;
+
+
+
+  }
+
+  .boton_x {
+
+    box-shadow: 2px 2px;
+    border-radius: 20%;
+    background-image: url("https://static.vecteezy.com/system/resources/previews/019/943/291/original/red-x-free-download-free-png.png");
+    background-size: cover;
+    background-position: center;
+
+    height: 5%;
+    width: 4%;
+  }
+
+  .bton {
+    width: 60%;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: rgb(248, 1, 1);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px black;
+  }
+
+  .bton:hover {
+    background-color: rgb(123, 21, 21)
+  }
+
+  .bton:active {
+    background-color: #05ff0e;
+    box-shadow: 0 5px black;
+    transform: translateY(4px);
+  }
+
+  .seccion-modal {
+    opacity: 0.9;
+    z-index: 2;
+    background-color:black;
+    height: 100vh;
+    width: 100wh;
+
+
+
+  }
